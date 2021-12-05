@@ -1,0 +1,14 @@
+body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar {
+    width: 300px;
+}
+
+#map {
+    flex-grow: 1;
+}

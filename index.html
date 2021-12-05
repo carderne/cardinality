@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Cardinal directions</title>
+        <script src="vendor/vue.js"></script>
+        <script src="vendor/mapbox-gl.js"></script>
+        <link href="vendor/mapbox-gl.css" rel="stylesheet" />
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div id="sidebar">
+            <div v-for="n in names">
+                <input type="checkbox" id="checkbox" v-model="n.active">
+                <label for="checkbox">{{ n.name }}</label>
+            </div>
+        </div>
+        <div id="map"></div>
+        <script type="module" src="./main.js"></script>
+    </body>
+</html>
