@@ -7,7 +7,7 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/light-v10",
-  bounds: [-180, -70, 180, 70],
+  bounds: [-80, -40, 80, 40],
   fitBoundsOptions: { padding: 50 },
 });
 
@@ -17,13 +17,21 @@ const names = points.features
   .map((f) => f.properties.name)
   .filter((v, i, s) => s.indexOf(v) === i)
   .sort()
-  .map((n) => ({ name: n, active: default_active.includes(n) ? true : false }));
+  .map((n) => ({ name: n, active: true }));
+
+const setActive = (names, active, include) => {
+  if (typeof include === "undefined") include = names.map((n) => n.name);
+  return names.map((n) => ({
+    name: n.name,
+    active: include.includes(n.name) ? active : false,
+  }));
+};
 
 // eslint-disable-next-line no-unused-vars
 const app = new Vue({
   el: "#sidebar",
   data: {
-    names: names,
+    names: setActive(names, true, default_active),
   },
   watch: {
     names: {
@@ -33,10 +41,21 @@ const app = new Vue({
       deep: true,
     },
   },
+  methods: {
+    clear: function () {
+      this.names = setActive(this.names, false);
+    },
+    all: function () {
+      this.names = setActive(this.names, true);
+    },
+    reset: function () {
+      this.names = setActive(this.names, true, default_active);
+    },
+  },
 });
 
 const filter = (names) => {
-  const active = names.filter((n) => n.active == true).map((n) => n.name)
+  const active = names.filter((n) => n.active == true).map((n) => n.name);
   map.setFilter("points", ["in", "name", ...active]);
 };
 
@@ -64,7 +83,7 @@ map.on("load", () => {
     },
   });
 
-  filter(names);
+  filter(app.names);
 
   map.on("click", (e) => {
     const lng = e.lngLat.lng;

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Cardinal directions</title>
+        <title>Cardinality</title>
         <script src="vendor/vue.js"></script>
         <script src="vendor/mapbox-gl.js"></script>
         <link href="vendor/mapbox-gl.css" rel="stylesheet" />
@@ -11,6 +11,9 @@
     </head>
     <body>
         <div id="sidebar">
+            <button type="button" @click="clear()">Clear</button>
+            <button type="button" @click="all()">All</button>
+            <button type="button" @click="reset()">Reset</button>
             <div v-for="n in names">
                 <input type="checkbox" id="checkbox" v-model="n.active">
                 <label for="checkbox">{{ n.name }}</label>

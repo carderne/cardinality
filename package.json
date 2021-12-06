@@ -1,8 +1,8 @@
 {
   "name": "",
   "version": "1.0.0",
-  "description": "# Data preparation ## AOI Download eg [GADM](https://gadm.org/download_country_v3.html) and export only level-0 as `GeoPackage`.",
-  "main": ".eslintrc.js",
+  "description": "",
+  "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
