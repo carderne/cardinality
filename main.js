@@ -31,7 +31,8 @@ const setActive = (names, active, include) => {
 const app = new Vue({
   el: "#sidebar",
   data: {
-    names: setActive(names, true, default_active),
+    //names: setActive(names, true, default_active),
+    names: setActive(names, true),
   },
   watch: {
     names: {

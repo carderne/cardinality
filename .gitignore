@@ -2,3 +2,4 @@ package-lock.json
 node_modules/
 .ipynb_checkpoints
 *.gpk*
+__pycache__/

@@ -9,6 +9,9 @@ import geopandas as gpd
 from shapely.geometry import Point, LineString
 import numba as nb
 
+far_east = ["Asia", "Russia", "Australia", "Fiji", "Tuvalu"]
+far_west = ["United States", "Americas", "United States Minor Outlying Islands"]
+
 
 @dataclass
 class Bearing:
@@ -54,14 +57,19 @@ def make_all_bearings():
 def gdf2dict(gdf):
     all_pts = {}
     for _, row in gdf.iterrows():
-        a = np.array(row.explode().geometry.exterior.coords)
         name = row["name"]
-        if name == "Asia":
+        exp = row.explode().geometry
+        if not isinstance(exp, pd.Series):
+            exp = [exp]
+        a = np.concatenate([x.exterior.coords for x in exp])
+        if name in far_east:
             a = np.where(a < -160, a + 360, a)
+        if name in far_west:
+            a = np.where(a > 160, a - 360, a)
         if name in all_pts:
-            all_pts[name] = np.concatenate((all_pts[name], a))
+            all_pts[name]["pts"] = np.concatenate((all_pts[name]["pts"], a))
         else:
-            all_pts[name] = a
+            all_pts[name] = {"pts": a, "tags": row["tags"]}
     return all_pts
 
 
@@ -69,18 +77,28 @@ def get_poles(degs, all_pts):
     poles = {}
     for name, pts in all_pts.items():
         print(name, end=", ")
-        a = calc_pts(degs, pts)
-        if name == "Asia":
+        a = calc_pts(degs, pts["pts"])
+        if name in far_east:
             a = np.where(a > 180, a - 360, a)
-        poles[name] = a
+        if name in far_west:
+            a = np.where(a < -180, a + 360, a)
+        poles[name] = {"pts": a, "tags": pts["tags"]}
     return poles
 
 
 def poles2gdf(poles, bs, crs):
     dfs = [
         gpd.GeoDataFrame(
-            data=[{"bearing": b.name, "order": b.order, "name": name} for b in bs],
-            geometry=[Point(pt) for pt in pole],
+            data=[
+                {
+                    "bearing": b.name,
+                    "order": b.order,
+                    "name": name,
+                    "tags": pole["tags"],
+                }
+                for b in bs
+            ],
+            geometry=[Point(pt) for pt in pole["pts"]],
             crs=crs,
         )
         for name, pole in poles.items()
@@ -115,16 +133,28 @@ def make_perpendicular_lines(df):
 
 
 def main(path_in, path_out):
-    gdf = gpd.read_file(path_in)
-    gdf = gdf.loc[(~pd.isna(gdf.name)) & (gdf.name != "ignore")]
+    if "," in path_in:
+        path_in = path_in.split(",")
+    else:
+        path_in = [path_in]
 
-    all_pts = gdf2dict(gdf)
     bs = make_all_bearings()
-    degs = np.array([b.angle for b in bs], dtype=float)
-    poles = get_poles(degs, all_pts)
-    poles = poles2gdf(poles, bs, gdf.crs)
 
-    poles.to_file(path_out, driver="GeoJSON")
+    dfs = []
+    for p in path_in:
+        print("Doing", p)
+        gdf = gpd.read_file(p)
+        gdf = gdf.loc[(~pd.isna(gdf.name)) & (gdf.name != "ignore")]
+
+        all_pts = gdf2dict(gdf)
+        degs = np.array([b.angle for b in bs], dtype=float)
+        poles = get_poles(degs, all_pts)
+        poles = poles2gdf(poles, bs, gdf.crs)
+        dfs.append(poles)
+        print()
+    df = pd.concat(dfs)
+
+    df.to_file(path_out, driver="GeoJSON")
 
 
 if __name__ == "__main__":
