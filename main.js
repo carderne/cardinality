@@ -2,15 +2,6 @@
 
 import points from "./points.js";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiY2FyZGVybmUiLCJhIjoiY2puMXN5cnBtNG53NDN2bnhlZ3h4b3RqcCJ9.eNjrtezXwvM7Ho1VSxo06w";
-const map = new mapboxgl.Map({
-  container: "map",
-  style: "mapbox://styles/mapbox/light-v10",
-  bounds: [-80, -40, 80, 40],
-  fitBoundsOptions: { padding: 50 },
-});
-
 const default_active = ["Africa"];
 
 const names = points.features
@@ -60,6 +51,16 @@ const filter = (names) => {
   map.setFilter("points", ["in", "name", ...active]);
 };
 
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiY2FyZGVybmUiLCJhIjoiY2puMXN5cnBtNG53NDN2bnhlZ3h4b3RqcCJ9.eNjrtezXwvM7Ho1VSxo06w";
+const map = new mapboxgl.Map({
+  container: "map",
+  style: "mapbox://styles/mapbox/light-v10",
+  bounds: [-80, -40, 80, 40],
+  fitBoundsOptions: { padding: 50 },
+});
+
+
 map.on("load", () => {
   map.addSource("points", {
     type: "geojson",
@@ -85,35 +86,4 @@ map.on("load", () => {
   });
 
   filter(app.names);
-
-  map.on("click", (e) => {
-    const lng = e.lngLat.lng;
-    const lat = e.lngLat.lat;
-    const coords = [
-      [lng + 20, lat + 20],
-      [lng - 20, lat - 20],
-    ];
-    const data = {
-      type: "Feature",
-      properties: {},
-      geometry: {
-        type: "LineString",
-        coordinates: coords,
-      },
-    };
-
-    if (typeof myVar === "undefined") {
-      map.addSource("line", {
-        type: "geojson",
-        data: data,
-      });
-      map.addLayer({
-        id: "line",
-        type: "line",
-        source: "line",
-      });
-    } else {
-      map.getSource("line").setData(data);
-    }
-  });
 });
