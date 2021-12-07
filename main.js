@@ -8,7 +8,7 @@ const default_active = ["Africa"];
 window.foo = namesRaw;
 
 const names = namesRaw
-  .sort((a, b) => a.name > b.name ? 1 : -1)
+  .sort((a, b) => (a.name > b.name ? 1 : -1))
   .map((n) => ({ ...n, active: true, show: true }));
 
 const setActive = (names, active, include) => {
@@ -29,7 +29,6 @@ const app = new Vue({
   },
   computed: {
     searchLow: function () {
-      //return this.search.length > 0 ? this.search.toLowerCase() : "???";
       return this.search.toLowerCase();
     },
     show: function () {
@@ -60,8 +59,24 @@ const app = new Vue({
     reset: function () {
       this.names = setActive(this.names, true, default_active);
     },
+    zoom: function (name) {
+      zoom(name);
+    },
   },
 });
+
+const zoom = (name) => {
+  const coords = points.features
+    .filter((f) => f.properties.name == name)
+    .map((f) => f.geometry.coordinates);
+  const lons = coords.map((c) => c[0]);
+  const lats = coords.map((c) => c[1]);
+  const bounds = [
+    [Math.min(...lons), Math.min(...lats)],
+    [Math.max(...lons), Math.max(...lats)],
+  ];
+  map.fitBounds(bounds, {padding: {top: 10, bottom: 10, left: 360, right: 10}});
+};
 
 const filter = (names) => {
   const active = names.filter((n) => n.active == true).map((n) => n.name);
@@ -74,7 +89,7 @@ const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/light-v10",
   bounds: [-80, -40, 80, 40],
-  fitBoundsOptions: { padding: 50 },
+  fitBoundsOptions: { padding: {top: 10, bottom: 10, left: 360, right: 10}},
 });
 
 map.on("load", () => {

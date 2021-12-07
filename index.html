@@ -21,6 +21,7 @@
                     <div v-show="show.includes(n.name)">
                         <input type="checkbox" id="checkbox" v-model="n.active">
                         <label for="checkbox">{{ n.name }}</label>
+                        <button type="button" @click="zoom(n.name)">zoom</button>
                     </div>
                 </div>
             </div>
