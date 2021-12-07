@@ -1,19 +1,20 @@
 /* global Vue mapboxgl points */
 
 import points from "./points.js";
+import namesRaw from "./names.js";
 
 const default_active = ["Africa"];
 
-const names = points.features
-  .map((f) => f.properties.name)
-  .filter((v, i, s) => s.indexOf(v) === i)
-  .sort()
-  .map((n) => ({ name: n, active: true }));
+window.foo = namesRaw;
+
+const names = namesRaw
+  .sort((a, b) => a.name > b.name ? 1 : -1)
+  .map((n) => ({ ...n, active: true, show: true }));
 
 const setActive = (names, active, include) => {
   if (typeof include === "undefined") include = names.map((n) => n.name);
   return names.map((n) => ({
-    name: n.name,
+    ...n,
     active: include.includes(n.name) ? active : false,
   }));
 };
@@ -24,6 +25,22 @@ const app = new Vue({
   data: {
     //names: setActive(names, true, default_active),
     names: setActive(names, true),
+    search: "",
+  },
+  computed: {
+    searchLow: function () {
+      //return this.search.length > 0 ? this.search.toLowerCase() : "???";
+      return this.search.toLowerCase();
+    },
+    show: function () {
+      return this.names
+        .filter(
+          (n) =>
+            n.name.toLowerCase().includes(this.searchLow) |
+            n.tags.toLowerCase().includes(this.searchLow)
+        )
+        .map((n) => n.name);
+    },
   },
   watch: {
     names: {
@@ -59,7 +76,6 @@ const map = new mapboxgl.Map({
   bounds: [-80, -40, 80, 40],
   fitBoundsOptions: { padding: 50 },
 });
-
 
 map.on("load", () => {
   map.addSource("points", {

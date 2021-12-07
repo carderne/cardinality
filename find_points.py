@@ -132,19 +132,20 @@ def make_perpendicular_lines(df):
     return df.assign(geometry=li)
 
 
-def main(path_in, path_out):
+def main(path_in, path_out, names_out):
     if "," in path_in:
         path_in = path_in.split(",")
     else:
         path_in = [path_in]
 
     bs = make_all_bearings()
-
+    name_dfs = []
     dfs = []
     for p in path_in:
         print("Doing", p)
         gdf = gpd.read_file(p)
         gdf = gdf.loc[(~pd.isna(gdf.name)) & (gdf.name != "ignore")]
+        name_dfs.append(gdf[["name", "tags"]])
 
         all_pts = gdf2dict(gdf)
         degs = np.array([b.angle for b in bs], dtype=float)
@@ -152,10 +153,13 @@ def main(path_in, path_out):
         poles = poles2gdf(poles, bs, gdf.crs)
         dfs.append(poles)
         print()
-    df = pd.concat(dfs)
 
+    df = pd.concat(dfs)
     df.to_file(path_out, driver="GeoJSON")
+
+    name_df = pd.concat(name_dfs).fillna("")
+    name_df.to_json(names_out, orient="records")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], sys.argv[3])

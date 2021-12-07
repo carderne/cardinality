@@ -10,16 +10,21 @@
         <link rel="stylesheet" href="./style.css">
     </head>
     <body>
+        <div id="map"></div>
         <div id="sidebar">
-            <button type="button" @click="clear()">Clear</button>
-            <button type="button" @click="all()">All</button>
-            <button type="button" @click="reset()">Reset</button>
-            <div v-for="n in names">
-                <input type="checkbox" id="checkbox" v-model="n.active">
-                <label for="checkbox">{{ n.name }}</label>
+            <div>
+                <button type="button" @click="clear()">Clear</button>
+                <button type="button" @click="all()">All</button>
+                <button type="button" @click="reset()">Reset</button>
+                <input type="text" v-model="search" placeholder="Search...">
+                <div v-for="n in names">
+                    <div v-show="show.includes(n.name)">
+                        <input type="checkbox" id="checkbox" v-model="n.active">
+                        <label for="checkbox">{{ n.name }}</label>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="map"></div>
         <script type="module" src="./main.js"></script>
     </body>
 </html>
