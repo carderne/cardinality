@@ -30,6 +30,7 @@ const app = new Vue({
     names: setActive(names, true),
     search: "",
     searchPlaceholder: `What about... ${searchPlaceholder}?`,
+    visible: true,
   },
   computed: {
     searchLow: function () {
@@ -54,6 +55,9 @@ const app = new Vue({
     },
   },
   methods: {
+    hide: function () {
+      this.visible = !this.visible;
+    },
     clear: function () {
       this.names = setActive(this.names, false);
     },

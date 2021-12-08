@@ -4,8 +4,8 @@
   "description": "",
   "main": "",
   "scripts": {
-    "css": "tailwind build tailwind.config.css -o tailwind.css",
-    "cssp": "NODE_ENV=production postcss tailwind.config.css -o tailwind.css"
+    "css": "tailwind build tailwind.config.css -o style.css",
+    "cssp": "NODE_ENV=production postcss tailwind.config.css -o style.css"
   },
   "repository": {
     "type": "git",
