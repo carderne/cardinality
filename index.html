@@ -41,7 +41,7 @@
             <div>
                 <p class="text-sm text-gray-700">
                     Ever wanted to know where the most south-easterly point in the Americas is?
-                    Or the most east-by-northerly point in Bosnia? No?
+                    Or the most <a href="https://en.m.wikipedia.org/wiki/Points_of_the_compass">east-by-northerly</a> point in Nepal? No?
                     Well...
                 </p>
             </div>
@@ -63,7 +63,7 @@
                          v-for="n in names" v-show="show.includes(n.name)">
                         <input class="ml-4" type="checkbox" :id="n.name" v-model="n.active">
                         <label
-                            class="block md:w-7/12 ml-4 leading-8 whitespace-nowrap overflow-hidden overflow-ellipsis"
+                            class="block w-4/5 md:w-7/12 ml-4 leading-8 whitespace-nowrap overflow-hidden overflow-ellipsis"
                             :for="n.name">{{ n.name }}
                         </label>
                         <span class="hidden md:inline ml-auto text-xs text-blue-600 leading-8 invisible group-hover:visible">
