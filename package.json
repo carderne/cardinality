@@ -4,7 +4,8 @@
   "description": "",
   "main": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "css": "tailwind build tailwind.config.css -o tailwind.css",
+    "cssp": "NODE_ENV=production postcss tailwind.config.css -o tailwind.css"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,12 @@
   },
   "homepage": "",
   "devDependencies": {
+    "cssnano": "^4.1.10",
+    "postcss": "^8.2.12",
+    "postcss-cli": "^8.3.1",
+    "autoprefixer": "^10.2.5",
+    "tailwindcss": "^2.1.2",
+    "lite-server": "^2.6.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",

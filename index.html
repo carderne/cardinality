@@ -7,24 +7,25 @@
         <script src="vendor/vue.js"></script>
         <script src="vendor/mapbox-gl.js"></script>
         <link href="vendor/mapbox-gl.css" rel="stylesheet" />
+        <link rel="stylesheet" href="./tailwind.css">
         <link rel="stylesheet" href="./style.css">
     </head>
     <body>
-        <div id="map"></div>
-        <div id="sidebar">
-            <div>
+        <div class="h-screen w-screen" id="map"></div>
+        <div class="absolute bg-white top-4 left-4 p-4 h-96 w-96" id="sidebar">
+            <div class="h-full overflow-y-scroll">
                 <button type="button" @click="clear()">Clear</button>
                 <button type="button" @click="all()">All</button>
                 <button type="button" @click="reset()">Reset</button>
                 <button type="button" @click="random()">Random</button>
                 <input type="text" v-model="search" placeholder="Search...">
                 <div v-for="n in names">
-                    <div class="place" v-show="show.includes(n.name)">
+                    <div class="group" v-show="show.includes(n.name)">
                         <input type="checkbox" :id="n.name" v-model="n.active">
                         <label :for="n.name">{{ n.name }}</label>
-                        <span class="zoom">
-                            <span @click="only(n.name)">only</span>
-                            <span @click="zoom(n.name)">zoom</span>
+                        <span class="float-right invisible group-hover:visible">
+                            <button @click="only(n.name)">only</span>
+                            <button @click="zoom(n.name)">zoom</span>
                         </span>
                     </div>
                 </div>
