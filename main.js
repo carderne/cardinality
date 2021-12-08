@@ -19,6 +19,9 @@ const setActive = (names, active, include) => {
   }));
 };
 
+const namesShort = namesRaw.map((n) => n.name).filter((n) => n.length < 12);
+const searchPlaceholder = namesShort[Math.floor(Math.random() * namesShort.length)];
+
 // eslint-disable-next-line no-unused-vars
 const app = new Vue({
   el: "#sidebar",
@@ -26,6 +29,7 @@ const app = new Vue({
     //names: setActive(names, true, default_active),
     names: setActive(names, true),
     search: "",
+    searchPlaceholder: `What about... ${searchPlaceholder}?`,
   },
   computed: {
     searchLow: function () {
@@ -61,7 +65,7 @@ const app = new Vue({
     },
     zoom: function (name) {
       const idx = this.names.findIndex((o) => o.name == name);
-      this.$set(this.names, idx, {...this.names[idx], active: true});
+      this.$set(this.names, idx, { ...this.names[idx], active: true });
       zoom(name);
     },
     only: function (name) {

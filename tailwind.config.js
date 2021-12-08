@@ -2,9 +2,10 @@ module.exports = {
   purge: ["./index.html"],
   variants: {
     extend: {
-      backgroundOpacity: ["hover"],
+      //backgroundOpacity: ["hover"],
+      backgroundColor: ['even'],
       visibility: ["group-hover"],
-      borderWidth: ["last"],
+      //borderWidth: ["last"],
     },
   },
   plugins: [],

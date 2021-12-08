@@ -12,22 +12,30 @@
     </head>
     <body>
         <div class="h-screen w-screen" id="map"></div>
-        <div class="absolute bg-white top-4 left-4 p-4 h-96 w-96" id="sidebar">
-            <div class="h-full overflow-y-scroll">
-                <button type="button" @click="clear()">Clear</button>
-                <button type="button" @click="all()">All</button>
-                <button type="button" @click="reset()">Reset</button>
-                <button type="button" @click="random()">Random</button>
-                <input type="text" v-model="search" placeholder="Search...">
-                <div v-for="n in names">
-                    <div class="group" v-show="show.includes(n.name)">
-                        <input type="checkbox" :id="n.name" v-model="n.active">
-                        <label :for="n.name">{{ n.name }}</label>
-                        <span class="float-right invisible group-hover:visible">
-                            <button @click="only(n.name)">only</span>
-                            <button @click="zoom(n.name)">zoom</span>
-                        </span>
-                    </div>
+        <div class="flex flex-col absolute bg-gray-100 top-4 left-4 p-4 h-96 w-96" id="sidebar">
+
+            <div class="flex">
+                <button class="bg-blue-300 hover:bg-blue-600 font-bold mx-2 py-2 px-4 rounded"
+                        type="button" @click="clear()">Clear</button>
+                <button class="bg-blue-300 hover:bg-blue-600 font-bold mx-2 py-2 px-4 rounded"
+                        type="button" @click="all()">All</button>
+                <!--<button class="bg-blue-300 hover:bg-blue-600 font-bold py-2 px-4 rounded"-->
+                        <!--type="button" @click="reset()">Reset</button>-->
+                <!--<button class="bg-blue-300 hover:bg-blue-600 font-bold py-2 px-4 rounded"-->
+                        <!--type="button" @click="random()">Random</button>-->
+            </div>
+
+            <input class="w-5/6 py-1 px-4 my-2 mx-2"
+                   type="text" v-model="search" :placeholder="searchPlaceholder">
+
+            <div class="flex-grow bg-white overflow-y-scroll">
+                <div class="group h-8 my-2 px-4 even:bg-gray-100" v-for="n in names" v-show="show.includes(n.name)">
+                    <input type="checkbox" :id="n.name" v-model="n.active">
+                    <label :for="n.name">{{ n.name }}</label>
+                    <span class="float-right invisible group-hover:visible">
+                        <button @click="only(n.name)">only</span>
+                    <button @click="zoom(n.name)">zoom</span>
+                    </span>
                 </div>
             </div>
         </div>
