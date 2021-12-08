@@ -20,6 +20,15 @@ body {
     overflow-y: scroll;
 }
 
+.place .zoom {
+    visibility: hidden;
+    float: right;
+}
+
+.place:hover .zoom {
+    visibility: visible;
+}
+
 #map {
     flex-grow: 1;
 }

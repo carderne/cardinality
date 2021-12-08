@@ -54,7 +54,6 @@ export default [
   { name: "Argentina", tags: "ARG" },
   { name: "Armenia", tags: "ARM" },
   { name: "American Samoa", tags: "ASM" },
-  { name: "Antarctica", tags: "ATA" },
   { name: "French Southern Territories", tags: "ATF" },
   { name: "Antigua and Barbuda", tags: "ATG" },
   { name: "Australia", tags: "AUS" },

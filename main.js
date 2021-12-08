@@ -60,7 +60,14 @@ const app = new Vue({
       this.names = setActive(this.names, true, default_active);
     },
     zoom: function (name) {
+      const idx = this.names.findIndex((o) => o.name == name);
+      this.$set(this.names, idx, {...this.names[idx], active: true});
       zoom(name);
+    },
+    only: function (name) {
+      const idx = this.names.findIndex((o) => o.name == name);
+      this.names = setActive(this.names, false);
+      this.zoom(name);
     },
   },
 });
@@ -75,7 +82,9 @@ const zoom = (name) => {
     [Math.min(...lons), Math.min(...lats)],
     [Math.max(...lons), Math.max(...lats)],
   ];
-  map.fitBounds(bounds, {padding: {top: 10, bottom: 10, left: 360, right: 10}});
+  map.fitBounds(bounds, {
+    padding: { top: 30, bottom: 30, left: 390, right: 30 },
+  });
 };
 
 const filter = (names) => {
@@ -89,7 +98,7 @@ const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/light-v10",
   bounds: [-80, -40, 80, 40],
-  fitBoundsOptions: { padding: {top: 10, bottom: 10, left: 360, right: 10}},
+  fitBoundsOptions: { padding: { top: 10, bottom: 10, left: 360, right: 10 } },
 });
 
 map.on("load", () => {
@@ -105,8 +114,10 @@ map.on("load", () => {
     layout: {
       "text-field": "{bearing}",
       "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-      "symbol-sort-key": ["get", "order"],
       "text-size": ["match", ["get", "order"], 1, 40, 2, 27, 3, 15, 4, 15, 3],
+      "symbol-sort-key": ["get", "order"],
+      "text-ignore-placement": false,
+      "text-allow-overlap": false,
     },
     paint: {
       "text-halo-width": 3,

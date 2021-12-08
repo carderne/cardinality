@@ -16,12 +16,16 @@
                 <button type="button" @click="clear()">Clear</button>
                 <button type="button" @click="all()">All</button>
                 <button type="button" @click="reset()">Reset</button>
+                <button type="button" @click="random()">Random</button>
                 <input type="text" v-model="search" placeholder="Search...">
                 <div v-for="n in names">
-                    <div v-show="show.includes(n.name)">
-                        <input type="checkbox" id="checkbox" v-model="n.active">
-                        <label for="checkbox">{{ n.name }}</label>
-                        <button type="button" @click="zoom(n.name)">zoom</button>
+                    <div class="place" v-show="show.includes(n.name)">
+                        <input type="checkbox" :id="n.name" v-model="n.active">
+                        <label :for="n.name">{{ n.name }}</label>
+                        <span class="zoom">
+                            <span @click="only(n.name)">only</span>
+                            <span @click="zoom(n.name)">zoom</span>
+                        </span>
                     </div>
                 </div>
             </div>
