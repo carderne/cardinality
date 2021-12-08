@@ -316,6 +316,10 @@ img,video{
   width:40%;
 }
 
+.w-4\/5{
+  width:80%;
+}
+
 .w-11\/12{
   width:91.666667%;
 }
@@ -548,6 +552,11 @@ img,video{
 .text-blue-600{
   --tw-text-opacity:1;
   color:rgba(37, 99, 235, var(--tw-text-opacity));
+}
+
+.text-blue-900{
+  --tw-text-opacity:1;
+  color:rgba(30, 58, 138, var(--tw-text-opacity));
 }
 
 *,:after,:before{
