@@ -3,7 +3,7 @@ module.exports = {
   variants: {
     extend: {
       //backgroundOpacity: ["hover"],
-      backgroundColor: ['even'],
+      backgroundColor: ['even', 'odd'],
       visibility: ["group-hover"],
       //borderWidth: ["last"],
     },
