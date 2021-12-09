@@ -30,7 +30,6 @@ export default [
   { name: "Hawai'i", tags: "USA United States of America" },
   { name: "Svalbard", tags: "Norway" },
   { name: "Tierra del Fuego", tags: "Argentina Chile" },
-  { name: "Greenland", tags: "Denmark" },
   { name: "Cuba", tags: "" },
   { name: "Baffin Island", tags: "Canada" },
   { name: "Puerto Rico", tags: "USA United States of America" },
