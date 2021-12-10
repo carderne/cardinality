@@ -63,7 +63,7 @@
                          v-for="n in names" v-show="show.includes(n.name)">
                         <input class="ml-4 my-auto" type="checkbox" :id="n.name" v-model="n.active">
                         <label
-                            class="block w-4/5 md:w-6/12 ml-4 leading-8 whitespace-nowrap overflow-hidden overflow-ellipsis"
+                            class="block w-4/5 md:w-6/12 ml-4 leading-8 whitespace-nowrap overflow-hidden text-ellipsis"
                             :for="n.name">{{ n.name }}
                         </label>
                         <span class="hidden md:inline ml-auto text-xs text-blue-600 leading-8 invisible group-hover:visible">

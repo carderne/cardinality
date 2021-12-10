@@ -1,5 +1,6 @@
 # cardinality
 
+## Data creation
 Download OSM land masses from [OSM Data](https://osmdata.openstreetmap.de/data/land-polygons.html).
 
 Raw data contains 700k+ land masses, so filter by area:
@@ -13,4 +14,15 @@ Then manually assigned names in QGIS.
 Then run the script:
 ```
 ./find_points.py land.gpkg out.geojson
+```
+
+## App development
+Tailwind Jit:
+```
+npx tailwindcss -i ./tailwind.config.css -o ./tw.css --watch
+```
+
+Local server:
+```
+npx lite-server
 ```
