@@ -20,7 +20,8 @@ const setActive = (names, active, include) => {
 };
 
 const namesShort = namesRaw.map((n) => n.name).filter((n) => n.length < 12);
-const searchPlaceholder = namesShort[Math.floor(Math.random() * namesShort.length)];
+const searchPlaceholder =
+  namesShort[Math.floor(Math.random() * namesShort.length)];
 
 // eslint-disable-next-line no-unused-vars
 const app = new Vue({
@@ -105,8 +106,9 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/light-v10",
-  bounds: [-80, -40, 80, 40],
+  bounds: [-150, -60, 180, 60],
   fitBoundsOptions: { padding: { top: 10, bottom: 10, left: 360, right: 10 } },
+  projection: "naturalEarth",
 });
 
 map.on("load", () => {
