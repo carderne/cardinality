@@ -106,8 +106,8 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/light-v10",
-  bounds: [-150, -60, 180, 60],
-  fitBoundsOptions: { padding: { top: 10, bottom: 10, left: 360, right: 10 } },
+  center: [0, 20],
+  zoom: 3,
   projection: "naturalEarth",
 });
 
