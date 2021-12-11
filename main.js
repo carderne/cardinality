@@ -24,14 +24,14 @@ const searchPlaceholder =
   namesShort[Math.floor(Math.random() * namesShort.length)];
 
 // eslint-disable-next-line no-unused-vars
-const app = new Vue({
-  el: "#sidebar",
-  data: {
-    //names: setActive(names, true, default_active),
-    names: setActive(names, true),
-    search: "",
-    searchPlaceholder: `What about... ${searchPlaceholder}?`,
-    visible: true,
+const Controls = {
+  data() {
+    return {
+      names: setActive(names, true),
+      search: "",
+      searchPlaceholder: `What about... ${searchPlaceholder}?`,
+      visible: true,
+    };
   },
   computed: {
     searchLow: function () {
@@ -70,7 +70,7 @@ const app = new Vue({
     },
     zoom: function (name) {
       const idx = this.names.findIndex((o) => o.name == name);
-      this.$set(this.names, idx, { ...this.names[idx], active: true });
+      this.names[idx] = { ...this.names[idx], active: true };
       zoom(name);
     },
     only: function (name) {
@@ -79,7 +79,8 @@ const app = new Vue({
       this.zoom(name);
     },
   },
-});
+};
+const app = Vue.createApp(Controls).mount("#sidebar");
 
 const zoom = (name) => {
   const coords = points.features
