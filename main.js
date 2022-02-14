@@ -1,21 +1,19 @@
-/* global Vue mapboxgl points */
+/* global Vue mapboxgl */
 
 import points from "./points.js";
 import namesRaw from "./names.js";
 
-const default_active = ["Africa"];
+const defaultActive = ["Africa"];
 
-window.foo = namesRaw;
-
-const names = namesRaw
+const namesProc = namesRaw
   .sort((a, b) => (a.name > b.name ? 1 : -1))
   .map((n) => ({ ...n, active: true, show: true }));
 
-const setActive = (names, active, include) => {
-  if (typeof include === "undefined") include = names.map((n) => n.name);
+const setActive = (names, active, include = null) => {
+  const includeNames = include || names.map((n) => n.name);
   return names.map((n) => ({
     ...n,
-    active: include.includes(n.name) ? active : false,
+    active: includeNames.includes(n.name) ? active : false,
   }));
 };
 
@@ -27,7 +25,7 @@ const searchPlaceholder =
 const Controls = {
   data() {
     return {
-      names: setActive(names, true),
+      names: setActive(namesProc, true),
       search: "",
       searchPlaceholder: `What about... ${searchPlaceholder}?`,
       visible: true,
@@ -41,7 +39,7 @@ const Controls = {
       return this.names
         .filter(
           (n) =>
-            n.name.toLowerCase().includes(this.searchLow) |
+            n.name.toLowerCase().includes(this.searchLow) ||
             n.tags.toLowerCase().includes(this.searchLow)
         )
         .map((n) => n.name);
@@ -66,15 +64,14 @@ const Controls = {
       this.names = setActive(this.names, true);
     },
     reset: function () {
-      this.names = setActive(this.names, true, default_active);
+      this.names = setActive(this.names, true, defaultActive);
     },
     zoom: function (name) {
-      const idx = this.names.findIndex((o) => o.name == name);
+      const idx = this.names.findIndex((o) => o.name === name);
       this.names[idx] = { ...this.names[idx], active: true };
       zoom(name);
     },
     only: function (name) {
-      const idx = this.names.findIndex((o) => o.name == name);
       this.names = setActive(this.names, false);
       this.zoom(name);
     },
@@ -84,7 +81,7 @@ const app = Vue.createApp(Controls).mount("#sidebar");
 
 const zoom = (name) => {
   const coords = points.features
-    .filter((f) => f.properties.name == name)
+    .filter((f) => f.properties.name === name)
     .map((f) => f.geometry.coordinates);
   const lons = coords.map((c) => c[0]);
   const lats = coords.map((c) => c[1]);
@@ -98,7 +95,7 @@ const zoom = (name) => {
 };
 
 const filter = (names) => {
-  const active = names.filter((n) => n.active == true).map((n) => n.name);
+  const active = names.filter((n) => n.active === true).map((n) => n.name);
   map.setFilter("points", ["in", "name", ...active]);
 };
 

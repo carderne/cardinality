@@ -20,11 +20,10 @@
   "devDependencies": {
     "autoprefixer": "^10.4.0",
     "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.0.3",
+    "eslint-plugin-vue": "^8.4.1",
     "lite-server": "^2.6.1",
     "postcss": "^8.4.4",
     "prettier": "^2.4.1",
