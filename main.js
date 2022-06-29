@@ -3,6 +3,10 @@
 import points from "./points.js";
 import namesRaw from "./names.js";
 
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
+const starting = params.only || false;
+
 const defaultActive = ["Africa"];
 
 const namesProc = namesRaw
@@ -116,6 +120,12 @@ map.on("style.load", () => {
 });
 
 map.on("load", () => {
+  if (starting) {
+    app.names = setActive(app.names, false);
+    app.search = starting;
+    app.zoom(starting);
+  }
+
   map.addSource("points", {
     type: "geojson",
     data: points,
