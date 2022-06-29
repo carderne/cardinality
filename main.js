@@ -103,10 +103,16 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiY2FyZGVybmUiLCJhIjoiY2puMXN5cnBtNG53NDN2bnhlZ3h4b3RqcCJ9.eNjrtezXwvM7Ho1VSxo06w";
 const map = new mapboxgl.Map({
   container: "map",
-  style: "mapbox://styles/mapbox/light-v10",
+  style: "mapbox://styles/mapbox/dark-v10",
   center: [0, 20],
   zoom: 3,
-  projection: "naturalEarth",
+  maxZoom: 10,
+  projection: "globe",
+  hash: "loc",
+});
+
+map.on("style.load", () => {
+  map.setFog({});
 });
 
 map.on("load", () => {
