@@ -151,5 +151,27 @@ map.on("load", () => {
     },
   });
 
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+
+  map.on("mouseenter", "points", (e) => {
+    map.getCanvas().style.cursor = "pointer";
+
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const text = e.features[0].properties.name;
+
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    popup.setLngLat(coordinates).setHTML(text).addTo(map);
+  });
+  map.on("mouseleave", "points", () => {
+    map.getCanvas().style.cursor = ""
+    popup.remove();
+  });
+
   filter(app.names);
 });
